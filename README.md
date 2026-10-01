@@ -1,173 +1,653 @@
 # Online Hobby & Skills Tracker with Community Sharing on Cloud
 
-Educational cloud-computing proof-of-work project using **React + FastAPI + Supabase PostgreSQL + Supabase Storage + JWT + REST APIs**. It tracks hobbies/skills, goals, milestones, practice, progress, achievements, community posts, likes, comments and following.
+A cloud-based web application for managing personal skills and hobbies, setting learning goals, tracking practice activities, monitoring progress, and sharing achievements through a community platform.
 
-## Fixed stack
-- Frontend: React 18 + Vite
-- Backend: Python 3.11+ + FastAPI
-- Cloud database: Supabase PostgreSQL
-- Cloud object storage: Supabase Storage
-- Authentication: application-managed JWT with bcrypt password hashing
-- Authorization: ownership checks + optional admin role
-- API: REST/JSON
-- Testing: pytest/TestClient
-- Optional Docker + GitHub Actions
+The project demonstrates the integration of **React, FastAPI, REST APIs, JWT authentication, Supabase PostgreSQL, Supabase Storage, and Docker** into a practical cloud-computing application.
 
-SQLite is deliberately **not** used in the final implementation. For offline demonstration, `DATABASE_MODE=memory` is available as a temporary local simulation; cloud mode remains Supabase PostgreSQL.
+---
 
-## What the project demonstrates
-Cloud database, object storage, authentication, authorization, REST, client-server architecture, stateless API design, environment variables, secrets management, logging, validation, analytics, pagination-ready feed queries, scalability, availability, CI/CD, CDN/load-balancing concepts and cloud deployment.
+## Overview
+
+The **Online Hobby & Skills Tracker with Community Sharing on Cloud** provides a centralized platform where users can organize their learning activities and monitor their progress over time.
+
+Users can create skills or hobbies, define learning goals and milestones, record practice sessions, view progress analytics, and participate in a community through posts, comments, likes, and follows.
+
+Application data is persisted using **Supabase PostgreSQL**, while **Supabase Storage** provides cloud-based object/file storage.
+
+The application is designed with a separation between the React frontend, FastAPI backend, and cloud services, providing a practical example of a modern cloud-connected web application architecture.
+
+---
+
+## Key Features
+
+### 👤 User Authentication & Profiles
+- User registration and login
+- JWT-based authentication
+- Protected API endpoints
+- User profile management
+- User-specific data access
+
+### 🎯 Skill & Hobby Management
+- Create and manage skills and hobbies
+- Categorize skills
+- Set current and target proficiency levels
+- Define learning periods
+- Track active, paused, and completed skills
+- Add descriptions for learning activities
+
+### 📌 Goals & Milestones
+- Create learning goals for individual skills
+- Set target values and deadlines
+- Track current progress
+- Manage goal status
+- Define milestones for larger goals
+- Monitor completed milestones
+
+### ⏱️ Practice Tracking
+- Record practice sessions
+- Track duration and activities
+- Add practice notes
+- Associate practice sessions with specific skills
+- Calculate practice statistics
+
+### 📊 Progress Analytics
+- Total practice hours
+- Weekly practice hours
+- Monthly practice hours
+- Practice distribution by skill
+- Most-practiced skill
+- Current and longest practice streaks
+- Goal and milestone statistics
+
+### 🌐 Community Sharing
+- Create skill-related posts
+- Comment on community posts
+- Like posts
+- Follow other users
+- Share learning progress and achievements
+
+### ☁️ Cloud Storage
+- Cloud-connected PostgreSQL database through Supabase
+- Supabase Storage for object/file storage
+- User-specific file management
+- Cloud persistence across application sessions
+
+### 🔐 Security
+- JWT authentication
+- Protected backend routes
+- User-specific data filtering
+- Environment-based configuration
+- Secrets kept outside source control
+
+### 🐳 Development & Deployment
+- Dockerized backend
+- React/Vite frontend
+- Git/GitHub-ready project structure
+- Environment-based configuration
+
+---
+
+## Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React.js |
+| Build Tool | Vite |
+| Backend | Python FastAPI |
+| API | REST API |
+| Authentication | JWT |
+| Database | Supabase PostgreSQL |
+| Object Storage | Supabase Storage |
+| Containerization | Docker |
+| Styling | HTML5 / CSS3 |
+| Version Control | Git & GitHub |
+
+---
 
 ## Architecture
+
 ```text
-Browser -> React/Vite -> HTTPS REST -> FastAPI -> JWT/Auth + business logic
-                                      |-> Supabase PostgreSQL (structured data)
-                                      |-> Supabase Storage (images/files)
-
-Production extension: CDN -> React -> API Gateway/Load Balancer -> FastAPI replicas -> DB/Storage/Cache/Workers/Monitoring
+                         ┌─────────────────────────┐
+                         │       React + Vite      │
+                         │        Frontend         │
+                         └────────────┬────────────┘
+                                      │
+                                  REST API
+                                      │
+                                      ▼
+                         ┌─────────────────────────┐
+                         │      FastAPI Backend    │
+                         │                         │
+                         │ • Authentication        │
+                         │ • Business Logic        │
+                         │ • Validation             │
+                         │ • Analytics              │
+                         │ • Community Features     │
+                         └────────────┬────────────┘
+                                      │
+                     ┌────────────────┴────────────────┐
+                     │                                 │
+                     ▼                                 ▼
+          ┌─────────────────────┐          ┌─────────────────────┐
+          │ Supabase PostgreSQL │          │  Supabase Storage   │
+          │                     │          │                     │
+          │ Users               │          │ User Files          │
+          │ Skills              │          │ Objects             │
+          │ Goals               │          │                     │
+          │ Milestones          │          └─────────────────────┘
+          │ Practice Sessions   │
+          │ Posts               │
+          │ Comments            │
+          │ Likes               │
+          │ Follows             │
+          └─────────────────────┘
 ```
 
-## Simple explanation
-The app is a cloud learning journal plus community. A user creates a profile, adds skills, sets measurable goals, logs practice, sees progress and uploads proof. Achievements can be shared with other fictional community members. Central cloud storage means the same account can be accessed from multiple devices.
+---
 
-## Industry relevance
-The architecture is similar to EdTech/LMS systems, fitness trackers, employee learning portals, professional skill platforms, creator communities, portfolio platforms and social applications: structured user data lives in a managed database while user-generated media lives in object storage.
+## Cloud Computing Concepts Demonstrated
 
-## Database model
+This project demonstrates several practical cloud-computing concepts:
+
+- **Cloud Database** — Supabase PostgreSQL
+- **Cloud Object Storage** — Supabase Storage
+- **RESTful Cloud Services** — FastAPI REST endpoints
+- **Authentication & Authorization** — JWT-based authentication
+- **Cloud Data Persistence** — persistent application data stored remotely
+- **Containerization** — Docker-based backend environment
+- **Environment-Based Configuration** — secrets and service configuration through environment variables
+- **Client-Server Architecture** — React frontend communicating with a cloud-connected backend
+- **Scalable Application Structure** — separation of presentation, API, business logic, database, and storage layers
+
+---
+
+## Project Structure
+
 ```text
-USERS 1--N SKILLS 1--N GOALS 1--N MILESTONES
-  |         |             |
-  |         +--N PRACTICE | 
-  +--N POSTS 1--N COMMENTS
-  |           +--N LIKES
-  +--N FOLLOWS
-  +--N FILES
-```
-Primary keys are UUIDs. Foreign keys enforce ownership relationships. Cloud-mode indexes are included for user/date, feed, comments, likes and follow queries.
-
-## Supabase setup
-1. Create a Supabase project.
-2. Run `database/schema.sql` in SQL Editor.
-3. Create Storage bucket `hobby-files`.
-4. Keep it private for stronger security; the backend can generate signed URLs in production. A public bucket is acceptable for a classroom demo only if no private data is uploaded.
-5. Put the database connection string, Supabase URL and service-role key in `backend/.env`. **Never commit these values.**
-
-### backend/.env
-```env
-DATABASE_MODE=supabase
-STORAGE_MODE=supabase
-DATABASE_URL=postgresql+psycopg://postgres:YOUR_PASSWORD@YOUR_HOST:5432/postgres
-SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-SUPABASE_SERVICE_KEY=YOUR_SERVICE_ROLE_KEY
-SUPABASE_BUCKET=hobby-files
-SUPABASE_BUCKET_PUBLIC=false
-JWT_SECRET=replace-with-a-long-random-secret
-JWT_EXPIRE_MINUTES=120
-CORS_ORIGINS=http://localhost:5173
+Cloud-Hobby-Skills-Tracker/
+│
+├── backend/
+│   ├── app.py
+│   ├── auth.py
+│   ├── cloud_store.py
+│   ├── store.py
+│   ├── requirements.txt
+│   ├── .env.example
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── package.json
+│   ├── vite.config.js
+│   └── ...
+│
+├── Dockerfile
+├── docker-compose.yml
+├── README.md
+└── ...
 ```
 
-## Windows local setup
-```bat
+---
+
+## Database
+
+The application uses **Supabase PostgreSQL** for persistent cloud data storage.
+
+### Main Tables
+
+```text
+users
+skills
+goals
+milestones
+practice_sessions
+posts
+comments
+likes
+follows
+files
+```
+
+### Relationships
+
+```text
+User
+ ├── Skills
+ │    └── Goals
+ │         └── Milestones
+ │
+ ├── Practice Sessions
+ │
+ ├── Posts
+ │    ├── Comments
+ │    └── Likes
+ │
+ ├── Follows
+ │
+ └── Files
+```
+
+This relational structure allows the application to maintain relationships between users, learning activities, goals, community content, and uploaded files.
+
+---
+
+## Supabase Storage
+
+The application uses **Supabase Storage** for cloud-based object/file storage.
+
+A private storage bucket is used for application files, while file metadata is maintained in PostgreSQL.
+
+The database stores information such as:
+
+- File ID
+- User ID
+- Object path
+- Original filename
+- Content type
+- File size
+- File purpose
+- Creation timestamp
+
+This demonstrates the separation between **structured data storage** and **object storage**.
+
+---
+
+## Authentication
+
+Authentication is implemented using **JSON Web Tokens (JWT)**.
+
+The general authentication flow is:
+
+```text
+User
+ │
+ ▼
+React Login/Register
+ │
+ ▼
+FastAPI Authentication API
+ │
+ ├── Validate credentials
+ │
+ └── Generate JWT
+       │
+       ▼
+React stores authentication state
+       │
+       ▼
+Protected API Requests
+       │
+       ▼
+FastAPI validates JWT
+       │
+       ▼
+User-specific data
+```
+
+Protected endpoints verify the authenticated user before accessing or modifying user-specific resources.
+
+---
+
+## API
+
+The FastAPI backend exposes REST endpoints for the application's major features.
+
+Examples include:
+
+```text
+/api/register
+/api/login
+/api/profile
+/api/skills
+/api/goals
+/api/milestones
+/api/practice
+/api/posts
+/api/comments
+/api/files
+/api/analytics/dashboard
+```
+
+Interactive API documentation is available through FastAPI's automatically generated documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+when the backend is running locally.
+
+---
+
+## Installation
+
+### Prerequisites
+
+Install the following:
+
+- Python 3.12+
+- Node.js and npm
+- Docker Desktop
+- Git
+- A Supabase account
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/srsimsima81-cloud/Online-Hobby-And-Skills-Tracker-With-Community-Sharing-On-Cloud.git
+cd Online-Hobby-And-Skills-Tracker-With-Community-Sharing-On-Cloud
+```
+
+---
+
+## 2. Configure Supabase
+
+Create a Supabase project and configure:
+
+- PostgreSQL database
+- Required database tables
+- `hobby-files` Storage bucket
+
+Run the project's database schema in the **Supabase SQL Editor**.
+
+Do not commit real Supabase credentials to GitHub.
+
+---
+
+## 3. Backend Configuration
+
+Navigate to the backend:
+
+```bash
 cd backend
-py -3 -m venv .venv
-.venv\Scriptsctivate
-python -m pip install --upgrade pip
-pip install -r requirements.txt
+```
+
+Create the environment file from the example:
+
+### Windows CMD
+
+```bat
 copy .env.example .env
 ```
-For no-cloud end-to-end verification, edit `.env` to:
-```env
-DATABASE_MODE=memory
-STORAGE_MODE=local
-JWT_SECRET=local-demo-secret-change-me
-CORS_ORIGINS=http://localhost:5173
+
+### PowerShell
+
+```powershell
+Copy-Item .env.example .env
 ```
-Then:
+
+Configure the required environment variables in `.env`.
+
+Example:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+JWT_SECRET=your_jwt_secret
+```
+
+Use your actual values locally.
+
+**Never commit the real `.env` file.**
+
+---
+
+## 4. Backend Setup
+
+Create a virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate it on Windows:
+
 ```bat
+.venv\Scripts\activate
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the FastAPI backend:
+
+```bash
 uvicorn app:app --reload
 ```
-In another terminal:
-```bat
+
+The backend will be available at:
+
+```text
+http://localhost:8000
+```
+
+API documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+---
+
+## 5. Frontend Setup
+
+Open another terminal and navigate to the frontend:
+
+```bash
 cd frontend
+```
+
+Install dependencies:
+
+```bash
 npm install
-copy .env.example .env
+```
+
+Start the development server:
+
+```bash
 npm run dev
 ```
-Open `http://localhost:5173`; API docs are at `http://127.0.0.1:8000/docs`.
 
-## Fictional demo credentials
-- maya@example.com / DemoPass123!
-- aarav@example.com / DemoPass123!
-- zoya@example.com / DemoPass123!
+The frontend will normally be available at:
 
-The memory demo starts with skills, goals, practice, posts, a like, a comment and a follow so the dashboard is meaningful immediately.
+```text
+http://localhost:5173
+```
 
-## Core workflow
-Register/login -> JWT -> profile -> skill -> goal -> practice -> progress/milestone -> file upload -> community post -> feed -> like/comment/follow -> analytics.
+---
 
-## Progress and streak logic
-`progress = min(100, current_value / target_value * 100)`.
-Practice adds `duration_minutes / 60` to active goals for that skill. A streak counts consecutive calendar dates with at least one practice session, beginning with today or yesterday. This avoids counting multiple sessions on one day as multiple streak days.
+## 6. Docker
 
-## REST API
-- POST `/api/auth/register`
-- POST `/api/auth/login`
-- POST `/api/auth/logout`
-- GET/PUT `/api/profile`
-- CRUD `/api/skills`
-- POST/GET `/api/goals`
-- POST/GET `/api/goals/{id}/milestones`
-- POST/GET `/api/practice`
-- GET `/api/skills/{id}/practice`
-- POST/GET/DELETE `/api/posts...`
-- POST/DELETE `/api/posts/{id}/like`
-- POST/GET `/api/posts/{id}/comments`
-- POST/DELETE `/api/users/{id}/follow`
-- POST/GET/DELETE `/api/files...`
-- GET `/api/analytics/dashboard`
+The backend can also be run using Docker where configured.
 
-Protected endpoints require `Authorization: Bearer <JWT>`.
+From the project root:
 
-## Expected Output and Verification
-1. Login: dashboard opens and profile name appears.
-2. Add Photography: it appears in Skills & Goals.
-3. Create a 20-hour goal: progress is 0%.
-4. Log 60 minutes: goal becomes 5% and practice history gains a row.
-5. Reach a milestone: milestone changes to achieved.
-6. Upload JPG/PNG/PDF <=5MB: file record/object is created.
-7. Create post: post appears in community feed.
-8. Second demo user likes/comments: counts update.
-9. Follow another user: relationship is stored once.
-10. Dashboard: practice totals, streak, goals, engagement and skill chart display.
+```bash
+docker compose up -d --build
+```
 
-## Recommended screenshots
-Login/registration; dashboard; skill/goal screen; practice history; analytics; profile; community feed; post creation; likes/comments/following; upload/storage; Supabase SQL tables; Supabase Storage bucket; FastAPI `/docs`; CI test result; architecture diagram; GitHub repository.
+Check the running services:
+
+```bash
+docker compose ps
+```
+
+Stop the services:
+
+```bash
+docker compose down
+```
+
+---
+
+## Environment Variables
+
+Real credentials and secrets must remain outside Git.
+
+Use:
+
+```text
+.env
+```
+
+for local configuration and:
+
+```text
+.env.example
+```
+
+for safe placeholder configuration.
+
+Never commit:
+
+```text
+.env
+*.key
+*.pem
+credentials.json
+service-account files
+```
+
+or other files containing secrets.
+
+---
+
+## Usage
+
+After starting the frontend and backend:
+
+1. Register an account.
+2. Log in using the registered credentials.
+3. Complete the profile.
+4. Add skills or hobbies.
+5. Create learning goals.
+6. Add milestones where required.
+7. Record practice sessions.
+8. Monitor progress through analytics.
+9. Create community posts.
+10. Interact with community content.
+11. Upload and manage supported files through cloud storage.
+
+---
+
+## Sample Demonstration Workflow
+
+A typical demonstration can follow this sequence:
+
+```text
+Register
+   ↓
+Login
+   ↓
+Create Skills/Hobbies
+   ↓
+Create Learning Goals
+   ↓
+Record Practice Sessions
+   ↓
+View Analytics
+   ↓
+Create Community Post
+   ↓
+Comment / Like / Follow
+   ↓
+Upload File
+   ↓
+Verify Cloud Persistence
+```
+
+---
 
 ## Testing
-```bat
-cd backend
-.venv\Scriptsctivate
-pytest -q
-```
-The automated suite uses memory/local modes so it does not require secrets. Before submission, repeat the main workflows once against your own Supabase project.
 
-## Security
-Passwords are bcrypt-hashed. JWT secrets and Supabase service credentials are environment variables. Ownership is checked before editing/deleting. Uploads are restricted to JPG/PNG/WEBP/PDF and 5 MB. Production should use HTTPS, private buckets + short-lived signed URLs, gateway rate limiting, centralized secrets, monitoring and backups. User-generated content requires moderation/reporting, spam controls and careful XSS/content validation.
+The application should be tested across the following areas:
 
-## Privacy and moderation
-Public profile fields should exclude email unless intentionally exposed. Posts are user-controlled public content. A production version should add reporting, blocking, moderation queues, content scanning, privacy settings and complete account/data deletion workflows. Never expose service keys or private records through public APIs.
+### Authentication
+- Registration
+- Login
+- Invalid credentials
+- Protected routes
+- JWT validation
 
-## Scalability
-10 users: one API instance is sufficient. 1,000 users: managed PostgreSQL, indexes and pagination. 100,000+ users: horizontal API replicas behind a load balancer, CDN, caching, background workers/queues and feed optimization. Fan-out-on-read keeps writes simple but can make reads expensive; fan-out-on-write makes reads fast but increases write complexity. A hybrid is suitable at large scale.
+### Skills
+- Create skill
+- View skills
+- Update skill
+- Status changes
+- User-specific access
 
-## Failure handling
-DB failure -> controlled error/503 strategy; upload failure -> do not leave a broken metadata record; upload succeeds but DB write fails -> cleanup object; DB write succeeds but upload fails -> use an operation state/retry strategy; token expiry -> frontend clears token and returns to login; network failure -> retry with user feedback; duplicate requests -> unique constraints/idempotent operations; timeouts -> bounded DB/API timeouts; logs must not contain passwords/tokens.
+### Goals & Milestones
+- Goal creation
+- Progress tracking
+- Deadline handling
+- Milestone creation
+- Milestone completion
 
-## Student-friendly deployment
-Frontend can be deployed on a free-eligible static host such as Vercel/Netlify; FastAPI on a free-eligible backend host; PostgreSQL and Storage on Supabase. Free limits change, so verify current provider terms before deployment. Set `VITE_API_URL` to the deployed API URL and configure backend secrets in the host's environment settings.
+### Practice
+- Practice-session creation
+- Duration tracking
+- Skill association
+- Analytics calculations
+- Practice streaks
 
-## Enterprise mapping
-AWS: S3/CloudFront, Cognito, API Gateway, Lambda/App Runner, RDS/DynamoDB, S3, ElastiCache, CloudWatch. Azure: Static Web Apps, identity services, Container Apps/Functions, PostgreSQL, Blob Storage, Front Door, Monitor. GCP: Cloud Storage, Cloud Run, Cloud SQL, Identity Platform, Cloud CDN, Cloud Monitoring.
+### Community
+- Post creation
+- Comments
+- Likes
+- Follows
+- User-specific content
 
-## GitHub hygiene
-Never commit `.env`, service keys, passwords, `.venv`, `node_modules`, caches or logs. Suggested commits: architecture, auth, tracking, community, storage, analytics, tests, documentation.
+### Cloud
+- Supabase database persistence
+- Supabase Storage upload
+- File retrieval
+- File deletion
+- User-specific file access
+
+---
+
+## Expected Output and Verification
+
+After successful setup, the application should provide:
+
+- Working registration and login
+- Authenticated user dashboard
+- Skill and hobby management
+- Goal and milestone tracking
+- Practice-session recording
+- Practice analytics
+- Community posts
+- Comments and likes
+- Follow functionality
+- Cloud database persistence
+- Cloud file storage
+- Protected API endpoints
+- Responsive React interface
+
+The application should continue to display persisted data after restarting the backend because the primary application data is stored in the cloud database rather than only in local memory.
+
+---
+
+## Educational Purpose
+
+This project is developed as an educational demonstration of cloud-connected application development.
+
+It focuses on understanding:
+
+- Cloud databases
+- Cloud object storage
+- REST APIs
+- Authentication
+- Client-server architecture
+- Containerization
+- Persistent cloud data
+- Community-oriented application design
+
+---
